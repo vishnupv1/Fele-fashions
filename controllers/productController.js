@@ -22,6 +22,7 @@ const addItem = ((req, res) => {
                 res.status(400).json('Error putting item:');
             } else {
                 res.redirect('/getCategories')
+                return res.status(200).json('added item')
             }
         });
     } catch (err) {
@@ -52,6 +53,7 @@ const getCategories = (async (req, res) => {
             return idA - idB;
         });
         res.render('categories', { 'items': sortedData, 'totalCategories': totalCategories });
+        //  res.status(200).json(sortedData)
 
     } catch (error) {
         console.error('Error fetching data:', error);

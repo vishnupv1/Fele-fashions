@@ -65,7 +65,7 @@
                                 </div>
 
                                 <div class="col-md-6 col-lg-6 col-xl-6">
-                                        <h5 class="category-title">{{productName}}</h5>
+                                    <h5 class="category-title">{{productName}}</h5>
                                     </a>
                                     <div class="category-details">
                                         <p class="category-info">Category ID: {{categoryId}}</p>
@@ -94,7 +94,7 @@
                 </div>
                 <div class="modal-body">
                     <!-- Add your form for adding a product here -->
-                    <form id="addProductForm" action="addItem" method="post">
+                    <form id="addProductForm">
                         <!-- Add your input fields for product details -->
                         <div class="mb-3">
                             <label for="productName" class="form-label">Product Name</label>
@@ -131,5 +131,32 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
 </body>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const addProductForm = document.getElementById('addProductForm');
+        addProductForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(addProductForm);
+            const headers = new Headers();
+            headers.append('Content-Type', 'application/json');
+            headers.append('x-api-key', 'abcd-efgh-ijlk-1234');
+
+            fetch('/addItem', {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify(Object.fromEntries(formData.entries()))
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Success:', data);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        });
+    });
+</script>
 
 </html>

@@ -1,9 +1,11 @@
 const apiKeyMiddleware = (req, res, next) => {
     const apiKey = req.headers['x-api-key'];
-    if (!apiKey || apiKey !== 'abcd-efgh-ijlk-1234') {
-         res.end( 'Unauthorized' );
+    console.log(apiKey);
+    if (apiKey === 'abcd-efgh-ijlk-1234') {
+        next();
+    } else {
+        // Render the error page
+        return res.status(403).json('Unauthorized access');
     }
-    next();
 };
-
 module.exports = apiKeyMiddleware
