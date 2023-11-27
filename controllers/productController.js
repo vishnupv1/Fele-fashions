@@ -70,10 +70,10 @@ const getProduct = async (req, res) => {
         };
         dynamodb.db.query(params, (err, data) => {
             if (err) {
-                console.error("Error querying items:", err);
+                return res.status(500).json('error')
             } else {
                 const items = data.Items;
-                res.render('products', { 'items': items })
+                return res.status(200).json(items)
             }
         });
     }
@@ -89,13 +89,21 @@ const category = async (req, res) => {
         res.status(404).json('Not found')
     }
 }
-
+const products = async (req, res) => {
+    try {
+        const categoryId = req.query.categoryId
+        res.render('products', { 'id': categoryId })
+    } catch (err) {
+        res.status(404).json('Not found')
+    }
+}
 
 module.exports = {
     addItem,
     getHome,
     getProduct,
     getCategories,
-    category
+    category,
+    products
 
 }

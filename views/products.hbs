@@ -47,9 +47,9 @@
             <a class="btn btn-success m-4" data-bs-toggle="modal" data-bs-target="#addProductModal">Add product</a>
             <div class="row justify-content-center mb-10">
                 <div class="col-md-12 col-xl-10">
-                    {{#each items}}
-                    <div class="card category-card mt-4">
-                        <div class="card-body">
+                    {{!-- {{#each items}} --}}
+                    <div class="card category-card mt-4" id="productListContainer">
+                        {{!-- <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
                                     <div class="bg-image hover-zoom ripple rounded ripple-surface category-image">
@@ -75,9 +75,9 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
-                    {{/each}}
+                    {{!-- {{/each}} --}}
                 </div>
             </div>
         </div>
@@ -156,6 +156,63 @@
                     console.error('Error:', error);
                 });
         });
+
+        const headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        headers.append('x-api-key', 'abcd-efgh-ijlk-1234');
+        const urlParams = new URLSearchParams(window.location.search);
+        const categoryId = urlParams.get('categoryId');
+
+        if (categoryId) {
+            fetch(`/api/product/list?categoryId=${categoryId}`, {
+                method: 'GET',
+                headers: headers
+            })
+
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Product details:', data);
+                    const productListContainer = document.getElementById('productListContainer');
+
+                    data.forEach(product => {
+                        const productCard = document.createElement('div');
+                        productCard.className = 'card category-card mt-4';
+
+                        productCard.innerHTML = `
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12 col-lg-3 col-xl-3 mb-4 mb-lg-0">
+                        <div class="bg-image hover-zoom ripple rounded ripple-surface category-image">
+                            <img src="${product.productImage}" class="w-100" alt="Category Image">
+                            <a href="#!">
+                                <div class="hover-overlay">
+                                    <div class="mask" style="background-color: rgba(253, 253, 253, 0.15);"></div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-6 col-xl-6">
+                        <h5 class="category-title">${product.productName}</h5>
+                        <div class="category-details">
+                            <p class="category-info">Category ID: ${product.categoryId}</p>
+                            <p class="category-info">Product ID: ${product.productId}</p>
+                            <p class="category-info">Price: ${product.price}</p>
+                            <p class="category-info">Brand: ${product.brand}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+
+                        // Append the product card to the container
+                        productListContainer.appendChild(productCard);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching product details:', error);
+                    alert('403 Unauthorized access')
+                });
+        }
     });
 </script>
 
