@@ -6,8 +6,11 @@ const apiKeyMiddleware = require('../middlewares/apiMiddleware');
 
 router.post('/addItem', apiKeyMiddleware, productController.addItem);
 router.get('/', productController.getHome);
-router.get('/getCategories', productController.getCategories);
+router.get('/api/product/categories', apiKeyMiddleware, productController.getCategories);
 router.get('/getProduct', productController.getProduct);
+router.get('/category', productController.category);
+
+
 
 
 

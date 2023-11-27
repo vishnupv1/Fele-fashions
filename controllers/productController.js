@@ -52,9 +52,7 @@ const getCategories = (async (req, res) => {
 
             return idA - idB;
         });
-        res.render('categories', { 'items': sortedData, 'totalCategories': totalCategories });
-        //  res.status(200).json(sortedData)
-
+        res.status(200).json({ 'items': sortedData, 'totalCategories': totalCategories });
     } catch (error) {
         console.error('Error fetching data:', error);
     }
@@ -84,6 +82,13 @@ const getProduct = async (req, res) => {
 
     }
 }
+const category = async (req, res) => {
+    try {
+        res.render('categories')
+    } catch (err) {
+        res.status(404).json('Not found')
+    }
+}
 
 
 module.exports = {
@@ -91,5 +96,6 @@ module.exports = {
     getHome,
     getProduct,
     getCategories,
+    category
 
 }
