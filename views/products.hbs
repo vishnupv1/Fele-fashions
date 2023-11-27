@@ -48,6 +48,8 @@
             <div class="row justify-content-center mb-10">
                 <div class="col-md-12 col-xl-10">
                     {{!-- {{#each items}} --}}
+                    <div class="col-md-12 col-xl-10" id="totalProducts">
+                    </div>
                     <div class="card category-card mt-4" id="productListContainer">
                         {{!-- <div class="card-body">
                             <div class="row">
@@ -172,10 +174,12 @@
 
                 .then(response => response.json())
                 .then(data => {
-                    console.log('Product details:', data);
+                    console.log(data)
+                    document.getElementById('totalProducts').textContent = 'Category Name :  ' + data.categoryName;
+
                     const productListContainer = document.getElementById('productListContainer');
 
-                    data.forEach(product => {
+                    data.items.forEach(product => {
                         const productCard = document.createElement('div');
                         productCard.className = 'card category-card mt-4';
 

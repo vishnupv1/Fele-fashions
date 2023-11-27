@@ -67,12 +67,29 @@ const getProduct = async (req, res) => {
                 ':category': sortKeyValue,
             }
         };
+        const catParams = {
+            TableName: 'categories',
+            KeyConditionExpression: 'id = :category',
+            ExpressionAttributeValues: {
+                ':category': sortKeyValue,
+            }
+        };
+        let categoryData
+        dynamodb.db.query(catParams, (err, data) => {
+            if (err) {
+                return res.status(500).json('error')
+            } else {
+                categoryData = data.Items
+                return categoryData
+            }
+        });
+
         dynamodb.db.query(params, (err, data) => {
             if (err) {
                 return res.status(500).json('error')
             } else {
                 const items = data.Items;
-                return res.status(200).json(items)
+                return res.status(200).json({ 'categoryID': categoryData[0].id, 'categoryName': categoryData[0].name, items })
             }
         });
     }
