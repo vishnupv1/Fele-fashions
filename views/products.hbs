@@ -143,7 +143,7 @@
             headers.append('Content-Type', 'application/json');
             headers.append('x-api-key', 'abcd-efgh-ijlk-1234');
 
-            fetch('/addItem', {
+            fetch('/api/product/save', {
                 method: 'POST',
                 headers: headers,
                 body: JSON.stringify(Object.fromEntries(formData.entries()))
@@ -151,6 +151,7 @@
                 .then(response => response.json())
                 .then(data => {
                     console.log('Success:', data);
+                    window.location.reload()
                 })
                 .catch(error => {
                     console.error('Error:', error);

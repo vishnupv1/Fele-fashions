@@ -21,7 +21,6 @@ const addItem = ((req, res) => {
                 console.log(err);
                 res.status(400).json('Error putting item:');
             } else {
-                res.redirect('/getCategories')
                 return res.status(200).json('added item')
             }
         });
